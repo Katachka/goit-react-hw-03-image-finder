@@ -1,15 +1,16 @@
-import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
-// import './ImageGallery.css';
 import PropTypes from 'prop-types';
+import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
+import { ImageGalleryContainer } from './ImageGallery.styled';
+
 
 function ImageGallery({ items }) {
   return (
     <>
-      <ul className="ImageGallery">
+      <ImageGalleryContainer>
         {items.map(item => (
           <ImageGalleryItem key={item.id} item={item} />
         ))}
-      </ul>
+      </ImageGalleryContainer>
     </>
   );
 }

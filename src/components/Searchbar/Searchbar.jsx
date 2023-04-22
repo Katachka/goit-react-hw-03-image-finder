@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import { Header, Form, FormButton, FormInput } from './Searchbar.styled';
 import { ImSearch } from 'react-icons/im';
 
 class Searchbar extends Component {
@@ -20,15 +20,14 @@ class Searchbar extends Component {
   render() {
     const { inputData } = this.state.inputData;
     return (
-      <header className="Searchbar">
-        <form className="SearchForm" onSubmit={this.handleSubmit}>
-          <button type="submit" className="SearchForm-button">
+      <Header >
+        <Form  onSubmit={this.handleSubmit}>
+          <FormButton type="submit" >
             <ImSearch size={25} />
-          </button>
+          </FormButton>
 
-          <input
-            className="SearchForm-input"
-            name="inputData"
+          <FormInput
+           name="inputData"
             value={inputData}
             onChange={this.onChangeInput}
             type="text"
@@ -36,8 +35,8 @@ class Searchbar extends Component {
             autoFocus
             placeholder="Search images and photos"
           />
-        </form>
-      </header>
+        </Form>
+      </Header>
     );
   }
 }

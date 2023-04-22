@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 import { fetchImages } from '../ services/api';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import Loader from './Loader/Loader';
-// import './App.css';
-// import Notiflix from 'notiflix';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
+import { AppContainer } from './App.styled';
+
 
 let page = 1;
 
@@ -60,43 +60,44 @@ class App extends Component {
       this.setState({ status: 'rejected' });
     }
   };
+
   render() {
     const { totalHits, status, items } = this.state;
     if (status === 'idle') {
       return (
-        <div className="App">
+        <AppContainer>
           <Searchbar onSubmit={this.handleSubmit} />
-        </div>
+        </AppContainer>
       );
     }
     if (status === 'pending') {
       return (
-        <div className="App">
+        <AppContainer>
           <Searchbar onSubmit={this.handleSubmit} />
           <ImageGallery page={page} items={this.state.items} />
           <Loader />
           {totalHits > 12 && <Button onClick={this.onNextPage} />}
-        </div>
+        </AppContainer>
       );
     }
     if (status === 'rejected') {
       return (
-        <div className="App">
+        <AppContainer>
           <Searchbar onSubmit={this.handleSubmit} />
           <p>Something wrong, try later</p>
-        </div>
+        </AppContainer>
       );
     }
     if (status === 'resolved') {
       return (
-        <div className="App">
+        <AppContainer>
           <Searchbar onSubmit={this.handleSubmit} />
           <ImageGallery page={page} items={this.state.items} />
           {totalHits > 12 && totalHits > items.length && (
             <Button onClick={this.onNextPage} />
           )}
              <ToastContainer />
-        </div>
+        </AppContainer>
       );
     }
   }
