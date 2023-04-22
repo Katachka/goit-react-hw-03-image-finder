@@ -23,7 +23,7 @@ class App extends Component {
   handleSubmit = async inputData => {
     page = 1;
     if (inputData.trim() === '') {
-       toast.error('You cannot search by empty field, try again.');
+       toast.warning('You cannot search by empty field, try again.');
       return;
     } else {
       try {
@@ -31,9 +31,7 @@ class App extends Component {
         const { totalHits, hits } = await fetchImages(inputData, page);
         if (hits.length < 1) {
           this.setState({ status: 'idle' });
-           toast.error(
-            'Sorry, there are no images matching your search query. Please, try again.'
-          );
+         
         } else {
           this.setState({
             items: hits,
@@ -41,9 +39,13 @@ class App extends Component {
             totalHits: totalHits,
             status: 'resolved',
           });
+          toast.success(`We found ${hits.length} out of ${totalHits} images matching "${inputData}"`);
         }
       } catch (error) {
         this.setState({ status: 'rejected' });
+          toast.error(
+            'Sorry, there are no images matching your search query. Please, try again.'
+          );
       }
     }
   };
