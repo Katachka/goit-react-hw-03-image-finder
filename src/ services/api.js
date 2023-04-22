@@ -1,11 +1,28 @@
-const URL = 'https://pixabay.com/api/';
-const KEY = '34294435-d3446f23ab07641a2c4369356';
-const FILTER = '&image_type=photo&orientation=horizontal&per_page=12';
+import axios from 'axios';
 
-function fetchImages(query, page = 1) {
-  return fetch(`${URL}?q=${query}&page=${page}&key=${KEY}${FILTER}`).then(
-    response => response.json()
-  );
+export async function fetchImages(inputData, page) {
+  const searchParams = new URLSearchParams({
+    key: '34294435-d3446f23ab07641a2c4369356',
+    q: inputData,
+    image_type: 'photo',
+    orientation: 'horizontal',
+    safesearch: 'true',
+    per_page: 12,
+    page,
+  });
+  const images = await axios.get(`https://pixabay.com/api/?${searchParams}`);
+
+  return images.data;
 }
 
-export default fetchImages;
+// const URL = 'https://pixabay.com/api/';
+// const KEY = '34294435-d3446f23ab07641a2c4369356';
+// const FILTER = '&image_type=photo&orientation=horizontal&per_page=12';
+
+// function fetchImages(query, page = 1) {
+//   return fetch(`${URL}?q=${query}&page=${page}&key=${KEY}${FILTER}`).then(
+//     response => response.json()
+//   );
+// }
+
+// export default fetchImages;
