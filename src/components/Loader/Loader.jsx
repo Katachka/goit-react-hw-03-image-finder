@@ -2,7 +2,7 @@ import { Dna } from 'react-loader-spinner';
 import { Spinner } from './Loader.styled';
 
 
-const Loader = () => {
+export const Loader = () => {
   return (
     <Spinner >
      <Dna
@@ -15,5 +15,3 @@ const Loader = () => {
     </Spinner>
   );
 };
-
-export default Loader;

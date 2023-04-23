@@ -1,22 +1,31 @@
 import PropTypes from 'prop-types';
-import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
+import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { ImageGalleryContainer } from './ImageGallery.styled';
 
 
-function ImageGallery({ items }) {
+export const ImageGallery = ({ images, openModal }) => {
   return (
-    <>
-      <ImageGalleryContainer>
-        {items.map(item => (
-          <ImageGalleryItem key={item.id} item={item} />
-        ))}
-      </ImageGalleryContainer>
-    </>
+    <ImageGalleryContainer>
+      {images.map(({ id, description, smallImage, largeImage }) => (
+        <ImageGalleryItem
+          key={id}
+          description={description}
+          smallImage={smallImage}
+          largeImage={largeImage}
+          openModal={openModal}
+        />
+      ))}
+    </ImageGalleryContainer>
   );
 }
 
-export default ImageGallery;
-
 ImageGallery.propTypes = {
-  items: PropTypes.array,
+    images: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            description: PropTypes.string,
+            smallImage: PropTypes.string.isRequired,
+            largeImage: PropTypes.string.isRequired,
+        })
+    ).isRequired,
 };

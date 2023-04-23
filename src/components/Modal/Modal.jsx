@@ -1,48 +1,54 @@
 import PropTypes from 'prop-types';
+import { Component } from 'react';
 import { createPortal } from 'react-dom';
-import React, { Component } from 'react';
-import { Overlay, ModalContainer} from './Modal.styled';
+import { Backdrop, ModalContainer } from './Modal.styled';
 
+const modalRoot = document.querySelector('#modal-root');
 
-const ModalRoot = document.querySelector('#ModalRoot');
+export const Modal = class Modal extends Component {
+    static propTypes = {
+        title: PropTypes.string,
+        onClose: PropTypes.func.isRequired,
+        currentImageUrl: PropTypes.string,
+        currentImageDescription: PropTypes.string,
+    };
 
-class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.keyDown);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.keyDown);
-  }
-
-  keyDown = e => {
-    if (e.code === 'Escape') {
-      this.props.onClose();
+    componentDidMount() {
+        window.addEventListener('keydown', this.handleKeyDown);
     }
-  };
 
-  onOverlayClose = e => {
-    if (e.currentTarget === e.target) {
-      this.props.onClose();
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.handleKeyDown);
     }
-  };
 
-  render() {
-    const { largeImageURL } = this.props.image;
-    return createPortal(
-      <Overlay onClick={this.onOverlayClose}>
-        <ModalContainer>
-          <img src={largeImageURL} alt="img" />
-        </ModalContainer>
-      </Overlay>,
-      ModalRoot
-    );
-  }
+    handleClickBackdrop = e => {
+        if (e.target === e.currentTarget) {
+        this.props.onClose();
+        }
+    };
+
+    handleKeyDown = e => {
+        if (e.code === 'Escape') {
+        this.props.onClose();
+        }
+    };
+
+    render() {
+        const { currentImageUrl, currentImageDescription } =
+        this.props;
+
+        return createPortal(
+            <Backdrop onClick={this.handleClickBackdrop}>
+                <ModalContainer>
+            
+                <img
+                    src={currentImageUrl}
+                    alt={currentImageDescription}
+                    loading="lazy"
+                />
+                </ModalContainer>
+            </Backdrop>,
+            modalRoot
+        );
+    }
 }
-
-export default Modal;
-
-Modal.propTypes = {
-  image: PropTypes.object,
-  onClose: PropTypes.func,
-};
